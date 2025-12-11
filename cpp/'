@@ -6,18 +6,21 @@ const int MOD = 1e9 + 7;
 
 int solve(int pos, int mod, int isLess, int isStart, string &s, int d, int n) {
   if (pos == n) {
-    return mod == 0 && isStart == 1;
+    return mod == 0 && isStart == 0;
   }
   if (dp[pos][mod][isLess][isStart] != -1) {
     return dp[pos][mod][isLess][isStart];
   }
   int limit = isLess ? 9 : (s[pos] - '0');
-  long res = 0;
+  int res = 0;
   for (int digit = 0; digit <= limit; ++digit) {
-    int newIsLess = isLess || digit < (s[pos] - '0');
-    int newIsStart = isStart || (digit > 0);
+    int newIsLess = isLess || (digit < limit);
+    int newIsStart = isStart && (digit == 0);
     int newMod = (mod + digit) % d;
-    res = (res + solve(pos + 1, newMod, newIsLess, newIsStart, s, d, n)) % MOD;
+    if (newIsStart) {
+      res =
+          (res + solve(pos + 1, newMod, newIsLess, newIsStart, s, d, n)) % MOD;
+    }
   }
   dp[pos][mod][isLess][isStart] = res;
   return res;
@@ -28,7 +31,7 @@ int main() {
   string s;
   cin >> s >> d;
   int n = s.size();
-  memset(dp, -1, sizeof(dp));
-  cout << solve(0, 0, 0, 0, s, d, n) % MOD << endl;
+  memset(dp, 0, sizeof(dp));
+  cout << solve(0, 0, 1, 1, s, d, n) << endl;
   return 0;
 }

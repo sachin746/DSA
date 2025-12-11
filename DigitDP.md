@@ -1,7 +1,6 @@
 # 📘 Digit DP — Complete Notes & Problem Set
 
 Digit DP is a technique for counting or optimizing over numbers ≤ N where the answer depends on digit properties.  
-This file gives you clear explanations, templates, and curated problem links.
 
 ---
 
